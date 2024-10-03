@@ -1,4 +1,4 @@
-<H1 ALIGN =CENTER>EX NO-3:Implementation of MLP for a non-linearly separable data</H1>
+<H1 ALIGN =CENTER>Implementation of MLP for a non-linearly separable data</H1>
 
 <H3>NAME: KEERTHANA S</H3>
 <H3>REGISTER NO.: 212223240070</H3>
