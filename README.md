@@ -3,7 +3,7 @@
 <H3>NAME: KEERTHANA S</H3>
 <H3>REGISTER NO.: 212223240070</H3>
 <H3>EX. NO.3</H3>
-<H3>DATE:03-10-2024</H3>
+<H3>DATE:</H3>
 
 <h3>Aim:</h3>
 To implement a perceptron for classification using Python
