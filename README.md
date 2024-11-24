@@ -3,7 +3,7 @@
 <H3>NAME: KEERTHANA S</H3>
 <H3>REGISTER NO.: 212223240070</H3>
 <H3>EX. NO.3</H3>
-<H3>DATE:</H3>
+<H3>DATE:26.09.24</H3>
 
 <h3>Aim:</h3>
 To implement a perceptron for classification using Python
@@ -39,81 +39,74 @@ Step 4 : Test for the XOR patterns.
 
 <H3>Program:</H3>
 
-```python
+```py
 import numpy as np
-import pandas as pd
-import io
-import matplotlib.pyplot as plt    
+import matplotlib.pyplot as plt
 
-x=np.array([[0,0,1,1],[0,1,0,1]])
-y=np.array([[0,1,1,0]]) 
+# Input and Output Data
+x = np.array([[0, 0, 1, 1], [0, 1, 0, 1]])  # XOR input
+y = np.array([[0, 1, 1, 0]])  # XOR output
 
-n_x = 2
-n_y = 1
-n_h = 2
-m = x.shape[1]
-lr = 0.1 
+# Neural Network Parameters
+n_x, n_h, n_y = 2, 2, 1  # Input layer, Hidden layer, Output layer sizes
+m = x.shape[1]  # Number of training examples
+lr = 0.1  # Learning rate
 
-w1 = np.random.rand(n_h,n_x)   # Weight matrix for hidden layer
-w2 = np.random.rand(n_y,n_h)   # Weight matrix for output layer
+# Random Weight Initialization
+w1 = np.random.rand(n_h, n_x)  # Weights for hidden layer
+w2 = np.random.rand(n_y, n_h)  # Weights for output layer
 
-losses = []
-def sigmoid(z):     
-   z= 1/(1+np.exp(-z))
-   return z
-def forward_prop(w1,w2,x):
-    z1 = np.dot(w1,x)
-    a1 = sigmoid(z1)
-    z2 = np.dot(w2,a1)
-    a2 = sigmoid(z2)
-    return z1,a1,z2,a2    
+# Sigmoid Activation Function
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
 
-def back_prop(m,w1,w2,z1,a1,z2,a2,y):
-    dz2 = a2-y
-    dw2 = np.dot(dz2,a1.T)/m
-    dz1 = np.dot(w2.T,dz2) * a1*(1-a1)
-    dw1 = np.dot(dz1,x.T)/m
-    dw1 = np.reshape(dw1,w1.shape)
-    dw2 = np.reshape(dw2,w2.shape)
-    return dz2,dw2,dz1,dw1
+# Forward Propagation
+def forward_prop(w1, w2, x):
+    a1 = sigmoid(np.dot(w1, x))  # Hidden layer activation
+    a2 = sigmoid(np.dot(w2, a1))  # Output layer activation
+    return a1, a2
 
+# Backpropagation
+def back_prop(w1, w2, x, a1, a2, y):
+    dz2 = a2 - y
+    dw2 = np.dot(dz2, a1.T) / m
+    dz1 = np.dot(w2.T, dz2) * a1 * (1 - a1)
+    dw1 = np.dot(dz1, x.T) / m
+    return dw1, dw2
+
+# Training loop
 iterations = 10000
-
+losses = []
 for i in range(iterations):
-    z1,a1,z2,a2 = forward_prop(w1,w2,x)
-    loss = -(1/m)*np.sum(y*np.log(a2)+(1-y)*np.log(1-a2))
-    losses.append(loss)
-    da2,dw2,dz1,dw1 = back_prop(m,w1,w2,z1,a1,z2,a2,y)
-    w2 = w2-lr*dw2
-    w1 = w1-lr*dw1
+    a1, a2 = forward_prop(w1, w2, x)  # Forward Propagation
+    loss = -(1/m) * np.sum(y * np.log(a2) + (1 - y) * np.log(1 - a2))  # Loss function
+    losses.append(loss)  # Track loss
+    dw1, dw2 = back_prop(w1, w2, x, a1, a2, y)  # Backpropagation
+    w1 -= lr * dw1  # Update weights
+    w2 -= lr * dw2
 
+# Plot Loss Curve
 plt.plot(losses)
-plt.xlabel("EPOCHS")
-plt.ylabel("Loss value")
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.title('Loss vs Epochs')
+plt.show()
 
-def predict(w1,w2,input):
-    z1,a1,z2,a2 = forward_prop(w1,w2,test)
-    a2 = np.squeeze(a2)
-    if a2>=0.5:
-        print( [i[0] for i in input], 1)
-    else:
-        print( [i[0] for i in input], 0)
+# Prediction function
+def predict(w1, w2, x):
+    _, a2 = forward_prop(w1, w2, x)
+    return 1 if a2 >= 0.5 else 0
 
-print('Input',' Output')
-test=np.array([[1],[0]])
-predict(w1,w2,test)
-test=np.array([[1],[1]])
-predict(w1,w2,test)
-test=np.array([[0],[1]])
-predict(w1,w2,test)
-test=np.array([[0],[0]])
-predict(w1,w2,test)
+# Test Predictions
+print('Input', 'Output')
+for test_input in [[1, 0], [1, 1], [0, 1], [0, 0]]:
+    test = np.array(test_input).reshape(2, 1)
+    print(test_input, predict(w1, w2, test))
 ```
 
 <H3>Output:</H3>
 
-![image](https://github.com/user-attachments/assets/e714f63f-f030-4332-9bc8-974016c4b383)
-
+![image](https://github.com/user-attachments/assets/581b9904-e414-429e-ad1f-445c77274755)
 
 <H3> Result:</H3>
 Thus, XOR classification problem can be solved using MLP in Python.
